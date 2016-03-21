@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Debug View</title>
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+  <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+  <script src="http://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+  <link rel="stylesheet" href="/resources/demos/style.css">
+</head>
+<script type="text/javascript" src="https://raw.githubusercontent.com/ethereum/web3.js/master/dist/web3.js"></script>
+
+<style>
+  td {border: 0px #DDD solid; padding: 5px; cursor: pointer;}
+
+  .selected {
+    background-color: brown;
+    color: #FFF;
+}
+</style>
+<body>
+ 
+<div class="demo">
+ 
+<form action="#">
+  <h2>vm trace:</h2>
+	<table id="instructions" bgcolor="lightBlue">
+    <tr><td id="first_td" ></td><td>tag</td><td>5</td></tr>
+    <tr><td>push</td><td></td></tr>
+    <tr><td>move</td><td>0</td></tr>
+    <tr><td>push</td><td>49</td></tr>
+    <tr><td>push</td><td>NULL</td></tr>
+    <tr><td>push</td><td>49</td></tr>
+  </table>
+ <script type="text/javascript">
+    var web3;
+    
+    $( document ).ready(function() {
+      var web3 = new Web3()
+      web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
+      alert(web3.eth.getBlockNumber(function(error, data){console.log( error )}));
+      
+    });
+    //$("#first_td")="sdsdsdsd"
+    //var jObj = JSON.parse(stringJson);
+    //var toPrint = jObj[0].gas
+    //alert(toPrint);
+  </script>
+	<script type="text/javascript">
+  $("#instructions tr").click(function(){
+     $(this).addClass('selected').siblings().removeClass('selected');    
+     var value=$(this).find('td:first').html();
+     alert(value);    
+  });
+
+  $('.ok').on('click', function(e){
+      alert($("#instructions tr.selected td:first").html());
+  });
+  
+	</script>
+</form>
+ 
+</div>
+ 
+ 
+</body>
+</html>

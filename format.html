@@ -32,22 +32,16 @@ td {border: 0px #DDD solid; padding: 5px; cursor: pointer;}
 
 
 
- <script type="text/javascript">
+<script type="text/javascript">
 
-
-
-
-    // ./eth -j --rpccorsdomain "*"
-
-    var web3;
-	$( document ).ready(function() {
-
-	  web3 = new Web3()
-	  web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
-	  web3.eth.getBlockNumber(function(error, data){ console.log( data )})
-
-	  displayMemory(0)
-    });
+var web3;
+$( document ).ready(function()
+{
+	web3 = new Web3()
+	web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
+	web3.eth.getBlockNumber(function(error, data){ console.log( data )})
+	displayMemory(0)
+});
 
 var currentStep = 0
 function stepMemoryForward()
@@ -70,13 +64,10 @@ function displayMemory(step)
 
 	var mem = formatMemory(vmtrace[step].memory, 16)
 	$('#memArea').html("</br>")
-	console.log(mem)
 	for (var k = 0; k < mem.length; k++)
 	{
 		$('#memArea').html($('#memArea').html() + mem[k].address + " " + mem[k].ascii + " " + mem[k].raw + "</br>")
 	}
-
-	//$('#memArea').html(JSON.stringify(formatMemory(vmtrace[step].memory, 16), null, '\t'))
 }
 
 function formatMemory(mem, width)

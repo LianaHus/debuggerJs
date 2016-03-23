@@ -2,7 +2,7 @@
 
 var multi = function(func) { return func.toString().match(/[^]*\/\*([^]*)\*\/\}$/)[1]; }
 
-var BALLOT_EXAMPLE = multi(function(){/*
+var JSON_INPUT = multi(function(){/*
 [{
   address: '1e6281f871ec414e4fbf66b4f2697a7a096f54f6',
   depth: 0,

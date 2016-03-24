@@ -61,26 +61,38 @@ function displayMemory(step)
 {
 	currentStep = step
 	$('#step').html(vmtrace[step].steps + " " + vmtrace[step].instname )
-
 	var mem = formatMemory(vmtrace[step].memory, 16)
 	$('#memArea').html("</br>")
 	for (var k = 0; k < mem.length; k++)
-	{
-		$('#memArea').html($('#memArea').html() + mem[k].address + " " + mem[k].ascii + " " + mem[k].raw + "</br>")
-	}
+		$('#memArea').html($('#memArea').html() + mem[k].address + " " + mem[k].content.ascii + " " + mem[k].content.raw + "</br>")
 }
 
 function formatMemory(mem, width)
 {
 	var ret = []
-	for (var k = 0; k < mem.length; k += width)
+	for (var k = 0; k < mem.length; k += (width * 2))
 	{
 		var memory = mem.substr(k, width * 2)
 		ret.push({
 			address: web3.toHex(k),
-			ascii: web3.toAscii(memory),
-			raw: memory
+			content: tryAsciiFormat(memory)
 		})
+	}
+	return ret
+}
+
+function tryAsciiFormat(memorySlot)
+{
+	var ret = { ascii: "", raw: "" }
+	for (var k = 0; k < memorySlot.length; k += 2)
+	{
+		var raw = memorySlot.substr(k, 2)
+		var dec = web3.toDecimal("0x" + raw)
+		if (dec >= 32 && dec < 127)
+			ret.ascii += web3.toAscii(raw)
+		else
+			ret.ascii += "?"
+		ret.raw += " " + raw
 	}
 	return ret
 }

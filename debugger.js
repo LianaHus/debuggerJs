@@ -453,9 +453,8 @@ function init(id, memTable, stackTable, storageTable){
     	$( id + " option:selected" ).each(function(key, value) {
     		// Memory Dump
     		memoryValue = vmTrace[$( this ).attr("value")].memory;
-    		if (memoryValue) {
-    			if (memoryValue == "")
-    				$(memTable).html("")
+    		if (memoryValue || (memoryValue == "")) {
+    			$(memTable).html("")
 	     		var memLine = formatMemory(memoryValue, 16)
 	     		$.each(memLine, function(key, value) {   
 	      			$(memTable).append("<tr><td>" + this.address +"</td><td>" + this.content.ascii + "</td><td>" + this.content.raw + "</td></tr>")

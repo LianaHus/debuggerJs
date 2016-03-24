@@ -18,7 +18,9 @@
   .selected {
     background-color: brown;
     color: #FFF;
-}
+  }
+  table {border: 1px #DDD solid}
+  div#content div {padding: 3px}
 </style>
 <body>
  
@@ -26,17 +28,23 @@
   <select name="instructions_" size="10" id="instructions">
    <script type="text/javascript">
       $( document ).ready(function() {
-        init('#instructions');
+        init('#instructions', '#memoryTable');
       });
     </script>
   </select>
 </div>
-<div>
+<div id="content">
   <div style="display: inline-block;">
-    <table></table>
+    <div>Memory dump</div>
+    <table id="memoryTable"></table>
   </div>
   <div style="display: inline-block;">
-    <table></table>
+    <div>Stack</div>
+    <table id="stackTable"></table>
+  </div>
+  <div>
+    <div>Storage</div>
+    <table id="storageTable"></table>
   </div>
 </div>
  

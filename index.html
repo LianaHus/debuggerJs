@@ -13,37 +13,80 @@
 <script type="text/javascript" src="example.js"></script>
 <script type="text/javascript" src="debugger.js"></script>
 <style>
-  td {border: 0px #DDD solid; padding: 3px; cursor: pointer; font-size: 6px;}
+  td {border: 0px #DDD solid; padding: 3px; }
   option {border: 1px #DDD solid; cursor: pointer; font-size: 12px; }
   .selected {
     background-color: brown;
     color: #FFF;
   }
+  .label {
+	color: #151B54;
+	font-size: 16px;
+  }
   table {border: 1px #DDD solid}
   div#content div {padding: 3px}
+  div#detail div {padding: 3px}
+  #demo {padding: 3px}
+  #query {padding: 3px}
+  #action {padding: 3px}
 </style>
 <body>
+
+<div id="query">
+<input id="adminSessionString" type="text" value="/o0tIeQ5u5A="></input>
+<input id="blockNumberId" type="text" value="1160004"></input>
+<input id="transactionIndexId" type="text" value="1"></input>
+<button onclick="loadDebugger()" >load</button>
+</div>
  
 <div class="demo">
-  <select name="instructions_" size="10" id="instructions">
+  <select size="10" id="instructions">
    <script type="text/javascript">
-      $( document ).ready(function() {
-        init('#instructions', '#memoryTable', '#stackTable', '#storageTable');
-      });
-    </script>
+	// ./eth -j --rpccorsdomain "*" --admin-via-http  console
+	var web3;
+	$( document ).ready(function() {
+		web3 = new Web3();
+		web3.setProvider(new web3.providers.HttpProvider('http://localhost:8545'));
+		addAdmin(web3);
+	});
+
+	function loadDebugger()
+	{
+		var trace = web3.admin.vmTrace($('#blockNumberId').val(), parseInt($('#transactionIndexId').val()), $('#adminSessionString').val())
+		console.log(trace)
+		init(trace, '#instructions', '#memoryTable', '#stackTable', '#storageTable', '#callstackTable');
+	}
+	</script>
   </select>
 </div>
+<div id="action" >
+<button onclick="stepIntoBack()" >stepIntoBack</button>
+<button onclick="stepOverBack()" >stepOverBack</button>
+<button onclick="stepOverForward()" >stepOverForward</button>
+<button onclick="stepIntoForward()" >stepIntoForward</button>
+</div>
+<div id="detail">
+<div><span class="label" >Current Step</span> <span id="currentstep"></span></div>
+<div><span class="label" >Adding Memory</span> <span id="addingmemory"></span></div>
+<div><span class="label" >Step Cost</span> <span id="stepcost"></span></div>
+<div><span class="label" >Total Gas Spent</span> <span id="gasspent"></span></div>
+</div>
+</div>
 <div id="content">
-  <div style="display: inline-block;">
-    <div>Memory dump</div>
+  <div>
+	<div class="label" >Call stack</div>
+	<table id="callstackTable"></table>
+  </div>
+  <div>
+	<div class="label" >Stack</div>
+	<table id="stackTable"></table>
+  </div>
+  <div>
+	<div class="label" >Memory dump</div>
     <table id="memoryTable"></table>
   </div>
-  <div style="display: inline-block;">
-    <div>Stack</div>
-    <table id="stackTable"></table>
-  </div>
-  <div style="display: inline-block;">
-    <div>Storage</div>
+  <div>
+	<div class="label" >Storage</div>
     <table id="storageTable"></table>
   </div>
 </div>
